@@ -41,5 +41,5 @@ jobs:
 
       - name: Push the Docker image to the DockerHub
         run: |
-          docker push Zhizz74/course_project:latest
+          docker push course_project:latest go/.
           echo "------------Docker image created successfully!------------"
