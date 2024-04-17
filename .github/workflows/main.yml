@@ -5,18 +5,18 @@ on:
       - '**'
 jobs:
   build-and-deploy:
-  runs-on: self-hosted
-  steps:
-  - name: Chechout code
-  uses: actions/checkout@v3
+    runs-on: self-hosted
+    steps:
+    - name: Chechout code
+    uses: actions/checkout@v3
 
-  - name Set up Docker Buildx
-  uses: docker/setup-buildx-action@v1
+    - name: Set up Docker Buildx
+    uses: docker/setup-buildx-action@v1
 
-  -name: Build Docker Image
-  run:
-  docker build -t course_project:latest go/.
+    -name: Build Docker Image
+    run:
+    docker build -t course_project:latest go/.
 
-  - name: Run Docker Container
-  run:
+    - name: Run Docker Container
+    run:
     docker run -d -p 8888:8888 course_project:latest
