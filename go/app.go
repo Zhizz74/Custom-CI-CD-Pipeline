@@ -7,9 +7,8 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Hello, this a demonstration of Go app")
+	fmt.Fprintln(w, "Hello, this a demonstration of Go app ")
 }
-
 func main() {
 	http.HandleFunc("/", handler)
 	fmt.Println("Running demo app. Press Ctrl+C to exit...")
