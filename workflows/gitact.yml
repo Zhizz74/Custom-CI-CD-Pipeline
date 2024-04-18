@@ -1,21 +1,43 @@
 name: Build and Deploy Docker Image
-on: 
+
+on:
   push:
     branches:
+      - main
+      - production
+  pull_request:
+    branches: [ "main" ]
+
 jobs:
-  build-and-deploy:
-  runs-on: self-hosted
-  steps:
-  - name: Chechout code
-  uses: actions/checkout@v3
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  - name Set up Docker Buildx
-  uses: docker/setup-buildx-action@v1
+      - name: Build Docker Image
+        run: docker build -t zhizun74/course_project:latest go/. && docker image prune -f
+      
+  deploy:
+    needs: build
+    runs-on: [self-hosted]
+    steps:
+      - name: Preparation and cleanup for deploy
+        run: |
+          docker rm -f $(docker ps -a -q) || echo "No containers available for cleaning"
+          docker run -d --name go-curs -p 8888:8888 zhizun74/course_project:latest
+        
+  push:
+    needs: deploy
+    runs-on: self-hosted
+    steps:
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-  -name: Build Docker Image
-  run:
-  docker build -t course_project:latest go/.
-
-  - name: Run Docker Container
-  run:
-    docker run -d -p 8888:8888 course_project:latest
+      - name: Push the Docker image to the DockerHub
+        run: |
+          docker push zhizun74/course_project:latest
+          echo "------------Docker image created successfully!------------"
