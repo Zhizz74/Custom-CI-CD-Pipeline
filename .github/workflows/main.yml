@@ -27,7 +27,7 @@ jobs:
       - name: Preparation and cleanup for deploy
         run: |
           docker rm -f $(docker ps -a -q) || echo "No containers available for cleaning"
-          docker run -d --name go-curs -p 8888:8888 Zhizz74/course_project:latest
+          docker run -d --name go-curs -p 8888:8888 course_project:latest
         
   push:
     needs: deploy
