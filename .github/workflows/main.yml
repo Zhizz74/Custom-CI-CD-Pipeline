@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build Docker Image
-        run: docker build -t course_project:latest go/. && docker image prune -f
+        run: docker build -t zhizun74/course_project:latest go/. && docker image prune -f
       
   deploy:
     needs: build
@@ -26,7 +26,7 @@ jobs:
       - name: Preparation and cleanup for deploy
         run: |
           docker rm -f $(docker ps -a -q) || echo "No containers available for cleaning"
-          docker run -d --name go-curs -p 8888:8888 course_project:latest
+          docker run -d --name go-curs -p 8888:8888 zhizun74/course_project:latest
         
   push:
     needs: deploy
