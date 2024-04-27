@@ -10,6 +10,7 @@ import (
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Hello, this a demonstration of how this Go app works")
+	fmt.Fprintln(w, "Goodbye, World!")
 }
 
 
